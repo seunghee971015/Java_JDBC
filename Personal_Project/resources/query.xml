@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="insertShoes">
+		INSERT INTO TB_SHOES_PRODUCT 
+		VALUES(SEQ_PCODE.NEXTVAL, ?, ?, ?, ?, ?)
+	</entry>
+	<entry key="selectList">
+		SELECT * 
+		FROM TB_SHOES_PRODUCT
+		ORDER BY PCODE
+	</entry>
+	<entry key="selectByUserId">
+		SELECT * 
+		FROM MEMBER 
+		WHERE USERID = ?
+	</entry>
+	<entry key="selectByUserName">
+		SELECT * 
+		FROM MEMBER 
+		WHERE USERNAME LIKE '%' || ? || '%'
+	</entry>
+	<entry key="updateMember">
+		UPDATE MEMBER 
+		SET USERPWD = ?, EMAIL = ?, phone = ?, ADDRESS = ? WHERE USERID = ? 
+	</entry>
+	<entry key="deleteMember">
+		DELETE FROM MEMBER 
+		WHERE USERID = ?
+	</entry>
+	<entry key="loginMember">
+		SELECT * 
+		FROM MEMBER 
+		WHERE USERID = ? AND USERPWD = ?
+	</entry>
+</properties>
