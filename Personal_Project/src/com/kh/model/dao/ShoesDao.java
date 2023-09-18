@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import com.kh.common.JDBCTemplate;
 import com.kh.model.vo.Shoes;
+import com.kh.model.vo.ShoesDetail;
 
 // DAO(Data Access Object) : DB에 직접적으로 접근해서 사용자의 요청에 맞는 sql문 실행 후 결과 반환(JDBC)
 //						  	 결과를 Controller로 다시 리턴
@@ -91,6 +92,7 @@ public class ShoesDao {
 				s.setBrand(rset.getString("BRAND"));
 				s.setShoeSize(rset.getInt("SHOE_SIZE"));
 				s.setPrice(rset.getInt("PRICE"));
+				s.setStock(rset.getInt("STOCK"));
 				
 				list.add(s);
 			}
@@ -104,33 +106,69 @@ public class ShoesDao {
 		
 	}
 //
-	public Shoes selectBypCode(Connection conn, String pCode) {
+	public Shoes selectBypCode(Connection conn, int pCode) {
 		
 		//select문(한 행) => ResultSet객체 => Member 객체
 		Shoes s = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectBypCode");
-		
+		String sql = prop.getProperty("selctBypCode");
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pCode);
+			pstmt.setInt(1, pCode);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
 				s = new Shoes();
-				m.setUserNo(rset.getInt("USERNO"));
-				m.setUserId(rset.getString("USERID"));
-				m.setUserPwd(rset.getString("USERPWD"));
-				m.setUserName(rset.getString("USERNAME"));
-				m.setGender(rset.getString("GENDER"));
-				m.setAge(rset.getInt("AGE"));
-				m.setEmail(rset.getString("EMAIL"));
-				m.setPhone(rset.getString("PHONE"));
-				m.setAddress(rset.getString("ADDRESS"));
-				m.setHobby(rset.getString("HOBBY"));
-				m.setEnrollDate(rset.getDate("ENROLLDATE"));
+				s.setpCode(rset.getInt("PCODE"));
+				s.setpName(rset.getString("PNAME"));
+				s.setBrand(rset.getString("BRAND"));
+				s.setShoeSize(rset.getInt("SHOE_SIZE"));
+				s.setPrice(rset.getInt("PRICE"));
+				s.setStock(rset.getInt("STOCK"));
+			}
+			/*PCODE
+			PNAME
+			BRAND
+			SHOE_SIZE
+			PRICE
+			STOCK*/
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return s;
+	}
+
+	public ArrayList<Shoes> selectByBrand(Connection conn, String brand) {
+		// select문(여러행) => ResultSet객체 => ArrayList 객체
+		
+		ArrayList<Shoes> list = new ArrayList<>(); //비어있는 상태
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectByBrand");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, brand);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Shoes s = new Shoes();
+				s.setpCode(rset.getInt("PCODE"));
+				s.setpName(rset.getString("PNAME"));
+				s.setBrand(rset.getString("BRAND"));
+				s.setShoeSize(rset.getInt("SHOE_SIZE"));
+				s.setPrice(rset.getInt("PRICE"));
+				s.setStock(rset.getInt("STOCK"));
+				
+				list.add(s);
 			}
 			
 		} catch (SQLException e) {
@@ -139,99 +177,126 @@ public class ShoesDao {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		return m;
+		return list;
+	}
+	
+	public int updateShoes(Connection conn, Shoes s) {
+		//update문 => 처리된 행수(int)
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateShoes");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, s.getpName());
+			pstmt.setString(2, s.getBrand());
+			pstmt.setInt(3, s.getShoeSize());
+			pstmt.setInt(4, s.getPrice());
+			pstmt.setInt(5, s.getpCode());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			
+		}
+		return result;		                        
+		
+		
 	}
 //	
-//	public ArrayList<Member> selectByUserName(Connection conn, String keyword) {
-//		// select문(여러행) => ResultSet객체 => ArrayList 객체
-//		
-//		ArrayList<Member> list = new ArrayList<>(); //비어있는 상태
-//		
-//		PreparedStatement pstmt = null;
-//		ResultSet rset = null;
-//		
-//		String sql = prop.getProperty("selectByUserName");
-//		
-//		try {
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, keyword);
-//			rset = pstmt.executeQuery();
-//			
-//			while(rset.next()) {
-//				Member m = new Member();
-//				m.setUserNo(rset.getInt("USERNO"));
-//				m.setUserId(rset.getString("USERID"));
-//				m.setUserPwd(rset.getString("USERPWD"));
-//				m.setUserName(rset.getString("USERNAME"));
-//				m.setGender(rset.getString("GENDER"));
-//				m.setAge(rset.getInt("AGE"));
-//				m.setEmail(rset.getString("EMAIL"));
-//				m.setPhone(rset.getString("PHONE"));
-//				m.setAddress(rset.getString("ADDRESS"));
-//				m.setHobby(rset.getString("HOBBY"));
-//				m.setEnrollDate(rset.getDate("ENROLLDATE"));
-//				
-//				list.add(m);
-//			}
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			JDBCTemplate.close(rset);
-//			JDBCTemplate.close(pstmt);
-//		}
-//		return list;
-//	}
-//	
-//	public int updateMember(Connection conn, Member m) {
-//		//update문 => 처리된 행수(int)
-//		int result = 0;
-//		
-//		PreparedStatement pstmt = null;
-//		String sql = prop.getProperty("updateMember");
-//		
-//		try {
-//			pstmt = conn.prepareStatement(sql);
-//			
-//			pstmt.setString(1, m.getUserPwd());
-//			pstmt.setString(2, m.getEmail());
-//			pstmt.setString(3, m.getPhone());
-//			pstmt.setString(4, m.getAddress());
-//			pstmt.setString(5, m.getUserId());
-//			
-//			result = pstmt.executeUpdate();
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			JDBCTemplate.close(pstmt);
-//			
-//		}
-//		return result;		                        
-//		
-//		
-//	}
-//	
-//	public int deleteMember(Connection conn, String userId) {
-//		// delete문(처리된 행 수)=> 반환
-//		
-//		int result = 0;
-//		
-//		PreparedStatement pstmt = null;
-//		String sql = prop.getProperty("deleteMember");
-//		
-//		try {
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, userId);
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			JDBCTemplate.close(pstmt);
-//		}
-//		return result;
-//		
-//	}
+	public int deleteShoes(Connection conn, int pCode) {
+		// delete문(처리된 행 수)=> 반환
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteShoes");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pCode);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+		
+	}
+	
+public Shoes selectByStock(Connection conn, int pCode) {
+		
+		//select문(한 행) => ResultSet객체 => Member 객체
+		Shoes s = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selctBypCode");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pCode);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				s = new Shoes();
+				s.setpCode(rset.getInt("PCODE"));
+				s.setpName(rset.getString("PNAME"));
+				s.setBrand(rset.getString("BRAND"));
+				s.setShoeSize(rset.getInt("SHOE_SIZE"));
+				s.setPrice(rset.getInt("PRICE"));
+				s.setStock(rset.getInt("STOCK"));
+			}
+			/*PCODE
+			PNAME
+			BRAND
+			SHOE_SIZE
+			PRICE
+			STOCK*/
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return s;
+	}
+
+	public int updateStore(Connection conn, ShoesDetail sd) {
+		//insert => 처리된 행 수
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateStore");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			System.out.println(sql);
+			
+			pstmt.setInt(1, sd.getpCode());
+			pstmt.setInt(2, sd.getAmount());
+			pstmt.setString(3, sd.getStatus());
+			
+			
+			result = pstmt.executeUpdate();
+			System.out.println(result);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
 //	
 //	public Member loginMember(Connection conn, String userId, String userPwd) {
 //		//select문(한 행) => ResultSet객체 => Member 객체

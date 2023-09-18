@@ -29,11 +29,12 @@ public class ShoesMenu {
 			System.out.println("1. 입고된 신발 추가");
 			System.out.println("2. 신발 전체 조회");
 			System.out.println("3. 상품 번호 조회");
-			System.out.println("4. 신발 삭제");
 			System.out.println("4. 브랜드 이름으로 키워드 검색");
-			System.out.println("5. 재고 수량 확인");
-			System.out.println("6. 입고 업로드");
-			System.out.println("7. 출고 업로드");
+			System.out.println("5. 신발 삭제");
+			System.out.println("6. 신발 정보 변경");
+			System.out.println("7. 재고 수량 확인");
+			System.out.println("8. 입고 업로드");
+			System.out.println("9. 출고 업로드");
 			System.out.println("0. 프로그램 종료");
 			
 			System.out.print(">> 메뉴 선택 : ");
@@ -52,26 +53,29 @@ public class ShoesMenu {
 				//mc.selectByUserId(userId);
 				sct.selectBypCode(inputpCode());
 				break;
-//			case 4 : // 회원 이름으로 키워드 검색
-//				//String keyword = inputMemberName();
-//				//mc.selectByUserName(keyword);
-//				mc.selectByUserName(inputMemberName());
-//				break;
-//			case 5 : // 회원 정보 변경
-//				//userid
-//				//패스워드, 이메일, 전화번호, 주소
-//				updateMember();
-//				break;
-//			case 6 : // 회원 탈퇴
-//				//DELETE FROM MEMBER WHERE USERiD = '사용자가 입력한 아이디'
-//				
-//				//String userId = inputMemberId();
-//				//mc.deleteMember(userId);
-//				mc.deleteMember(inputMemberId());
-//				break;
-//			case 7 : //로그인
-//				mc.loginMember(inputMemberId(),inputMemberPwd());
-//				break;
+			case 4 : // 회원 이름으로 키워드 검색
+				//String keyword = inputMemberName();
+				//mc.selectByUserName(keyword);
+				sct.selectByBrand(inputShoeBrand());
+				break;
+			case 5 : // 신발 삭제
+				//DELETE FROM MEMBER WHERE USERiD = '사용자가 입력한 아이디'
+				
+				//String userId = inputMemberId();
+				//mc.deleteMember(userId);
+				sct.deleteShoes(inputpCode());
+				break;
+			case 6 : // 신발 정보 변경
+				//pCode
+				//상품명, 브랜드, 사이즈, 가격
+				updateShoes();
+				break;
+			case 7 : //재고확인
+				sct.selectByStock(inputpCode());
+				break;
+			case 8 :
+				updateStore();
+				break;
 			case 0 : // 프로그램 종료(메서드 빠져나감)
 				System.out.println("이용해주셔서 갑사합니다. 프로그램을 종료합니다.");
 				return;
@@ -116,9 +120,9 @@ public class ShoesMenu {
 		
 	}
 
-	public String inputpCode() {
+	public int inputpCode() {
 		System.out.println("\n상품 번호 입력");
-		return sc.nextLine();
+		return sc.nextInt();
 	}
 //	
 //	public String inputMemberPwd() {
@@ -126,35 +130,55 @@ public class ShoesMenu {
 //		return sc.nextLine();
 //	}
 //	
-//	public String inputMemberName() {	
-//		System.out.println("\n회원  이름(키워드) 입력");
-//		return sc.nextLine();
-//	}
+	public String inputShoeBrand() {	
+		System.out.println("\n브랜드 명 입력");
+		return sc.nextLine();
+	}
 //	
-//	public void updateMember() {
-//		System.out.println("\n===회원 정보 변경 ===");
-//		
-//		//(찾기위한)아이지, 비밀번호, 이메일, 전화번호, 주소
-//		String userId = inputMemberId();
-//		
-//		System.out.println("변경할 비밀번호");
-//		String userPwd = sc.next();
-//		
-//		System.out.println("변경할 이메일");
-//		String email = sc.next();
-//		
-//		System.out.println("변경할 번호");
-//		String phone = sc.next();
-//		
-//		System.out.println("변경할 주소");
-//		String address = sc.next();
-//		
-//		mc.updateMember(userId, userPwd, email, phone, address);
-//	}
-//	
-//	
-//	
-//	
+	public void updateShoes() {
+		System.out.println("\n===신발 정보 변경 ===");
+		
+		//(찾기위한)코드, 상품명, 브랜드, 사이즈, 가격
+		int pCode = inputpCode();
+		
+		System.out.println("변경할 상품명");
+		String pName = sc.next();
+		
+		System.out.println("변경할 브랜드명");
+		String brand = sc.next();
+		
+		System.out.println("변경할 사이즈");
+		int shoeSize = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.println("변경할 가격");
+		int price = sc.nextInt();
+		sc.nextLine();
+		
+		sct.updateShoes(pCode, pName, brand, shoeSize, price);
+	}
+
+public void updateStore() {
+		
+		System.out.println("\n=== 입고 업로드 ===");
+		// id ~ 취미까지 입력받기
+		
+		System.out.print("신발 코드 : ");
+		int pCode = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.print("수량 : ");
+		int stock = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.print("상태(입고) : ");
+		String status = sc.next();	
+		
+		// 입고 추가 요청 == Controller메서드 요청
+		sct.updateStroe(pCode, stock, status);
+		
+		
+	}
 //	//------------------------------응답화면-------------------------------------------
 //	/**
 //	 *  서비스 요청 처리 후 성공했을 경우 사용자가 보게될 응답화면
@@ -197,16 +221,27 @@ public class ShoesMenu {
 		}
 	}
 //	         
-	public void displayMember(Shoes s) {
+	public void displayShoes(Shoes s) {
 		System.out.println("\n조회된 데이터는 다음과 같습니다.");
 		System.out.println(s);
 	}
 //	
-//	public void displayLoginFail(String message) {
-//		System.out.println(message);
-//	}
+	public void displayLoginFail(String message) {
+		System.out.println(message);
+	}
 //	
-//	public void displayLoginSuccess(String message) {
-//		System.out.println(message);
-//	}
+	public void displayLoginSuccess(String message) {
+		System.out.println(message);
+	}
+	
+	public void displayShoesStock(Shoes s) {
+		System.out.println("재고 : " + s.getStock() + "개 남아있습니다.");
+	}
+	
+	public void displayStoreSuccess(String message) {
+		System.out.println(message);
+	}
+	public void displayStoreFail(String message) {
+		System.out.println(message);
+	}
 }

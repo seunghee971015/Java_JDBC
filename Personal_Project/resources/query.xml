@@ -10,27 +10,27 @@
 		FROM TB_SHOES_PRODUCT
 		ORDER BY PCODE
 	</entry>
-	<entry key="selectByUserId">
+	<entry key="selctBypCode">
 		SELECT * 
-		FROM MEMBER 
-		WHERE USERID = ?
+		FROM TB_SHOES_PRODUCT
+		WHERE PCODE = ?
 	</entry>
-	<entry key="selectByUserName">
+	<entry key="selectByBrand">
 		SELECT * 
-		FROM MEMBER 
-		WHERE USERNAME LIKE '%' || ? || '%'
+		FROM TB_SHOES_PRODUCT 
+		WHERE BRAND LIKE '%' || ? || '%'
 	</entry>
-	<entry key="updateMember">
-		UPDATE MEMBER 
-		SET USERPWD = ?, EMAIL = ?, phone = ?, ADDRESS = ? WHERE USERID = ? 
+	<entry key="deleteShoes">
+		DELETE FROM  TB_SHOES_PRODUCT
+		WHERE PCODE = ?
 	</entry>
-	<entry key="deleteMember">
-		DELETE FROM MEMBER 
-		WHERE USERID = ?
+	<entry key="updateShoes">
+		UPDATE TB_SHOES_PRODUCT
+		SET PNAME = ?, BRAND = ?, SHOE_SIZE = ?, PRICE = ? WHERE PCODE = ? 
 	</entry>
-	<entry key="loginMember">
-		SELECT * 
-		FROM MEMBER 
-		WHERE USERID = ? AND USERPWD = ?
+	<entry key="updateStore">
+		INSERT INTO TB_PRODETAIL
+		VALUES(SEQ_DECODE.NEXTVAL, ?, SYSDATE, ?, ?)
 	</entry>
+	
 </properties>

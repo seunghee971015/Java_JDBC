@@ -21,6 +21,13 @@ public class ShoesDetail{
 		this.amount = amount;
 		this.status = status;
 	}
+	public ShoesDetail(int pCode, int stock) {
+		super();
+	}
+	
+	public ShoesDetail(int pCode, int stock, String status) {
+		super();
+	}
 
 	public int getDeCode() {
 		return deCode;
