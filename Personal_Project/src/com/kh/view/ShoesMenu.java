@@ -12,7 +12,7 @@ public class ShoesMenu {
 	//Scanner 객체 생성(전역적으로 다 입력 받을 수 있도록)
 	private Scanner sc = new Scanner(System.in);
 	
-	//MemeberController 객체 생성(전역에서 바로 요청할 수 있도록)
+	//ShoesController 객체 생성(전역에서 바로 요청할 수 있도록)
 	private ShoesController sct = new ShoesController();
 	
 	
@@ -49,20 +49,20 @@ public class ShoesMenu {
 				sct.selectList();
 				break;
 			case 3 : //상품 번호 조회
-				//String userId = inputMemberId();
-				//mc.selectByUserId(userId);
+				//int pCode = inputpCode();
+				//sct.selectBypCode(pCode);
 				sct.selectBypCode(inputpCode());
 				break;
 			case 4 : // 회원 이름으로 키워드 검색
-				//String keyword = inputMemberName();
-				//mc.selectByUserName(keyword);
+				//String brand = inputShoeBrand();
+				//sct.selectByUserName(brand);
 				sct.selectByBrand(inputShoeBrand());
 				break;
 			case 5 : // 신발 삭제
-				//DELETE FROM MEMBER WHERE USERiD = '사용자가 입력한 아이디'
+				//DELETE FROM TB_SHOES_PRODUCT WHERE PCODE = '사용자가 입력한 아이디'
 				
-				//String userId = inputMemberId();
-				//mc.deleteMember(userId);
+				//int pCode = inputpCode();
+				//mc.deleteMember(pCode);
 				sct.deleteShoes(inputpCode());
 				break;
 			case 6 : // 신발 정보 변경
@@ -73,11 +73,14 @@ public class ShoesMenu {
 			case 7 : //재고확인
 				sct.selectByStock(inputpCode());
 				break;
-			case 8 :
-				updateStore();
+			case 8 : //입고 업로드
+				updateProductStore();
+				break;
+			case 9 : //출고 업로드
+				updateProductRelease();
 				break;
 			case 0 : // 프로그램 종료(메서드 빠져나감)
-				System.out.println("이용해주셔서 갑사합니다. 프로그램을 종료합니다.");
+				System.out.println("신발 관리 프로그램을 종료합니다.");
 				return;
 			
 			default :
@@ -158,7 +161,7 @@ public class ShoesMenu {
 		sct.updateShoes(pCode, pName, brand, shoeSize, price);
 	}
 
-public void updateStore() {
+public void updateProductStore() {
 		
 		System.out.println("\n=== 입고 업로드 ===");
 		// id ~ 취미까지 입력받기
@@ -168,17 +171,39 @@ public void updateStore() {
 		sc.nextLine();
 		
 		System.out.print("수량 : ");
-		int stock = sc.nextInt();
+		int amount = sc.nextInt();
 		sc.nextLine();
 		
-		System.out.print("상태(입고) : ");
+		System.out.print("입고를 원하시면 '입고'를 입력해주세요 : ");
 		String status = sc.next();	
 		
 		// 입고 추가 요청 == Controller메서드 요청
-		sct.updateStroe(pCode, stock, status);
+		sct.updateProductStroe(pCode, amount, status);
 		
 		
 	}
+
+public void updateProductRelease() {
+	
+	System.out.println("\n=== 출고 업로드 ===");
+	// 신발 코드, 수량, 상태 입력받기
+	
+	System.out.print("신발 코드 : ");
+	int pCode = sc.nextInt();
+	sc.nextLine();
+	
+	System.out.print("수량 : ");
+	int amount = sc.nextInt();
+	sc.nextLine();
+	
+	System.out.print("출고를 원하시면 '출고'를 입력해주세요 : ");
+	String status = sc.next();	
+	
+	// 출고 요청 == Controller메서드 요청
+	sct.updateProductRelease(pCode, amount, status);
+	
+	
+}
 //	//------------------------------응답화면-------------------------------------------
 //	/**
 //	 *  서비스 요청 처리 후 성공했을 경우 사용자가 보게될 응답화면
@@ -205,7 +230,7 @@ public void updateStore() {
 	}
 //	/**
 //	 * 조회 서비스 요청시 조회 결과가 여러행일 경우 사용자가 보게될 응답화면
-//	 * @param list : 출력할 member들이 담겨있는 list
+//	 * @param list : 출력할 shoes들이 담겨있는 list
 //	 */
 	public void displayMemberList(ArrayList<Shoes> list) {
 		System.out.println("\n조회된 데이터는 다음과 같습니다");
@@ -242,6 +267,13 @@ public void updateStore() {
 		System.out.println(message);
 	}
 	public void displayStoreFail(String message) {
+		System.out.println(message);
+	}
+	
+	public void displayReleaseSuccess(String message) {
+		System.out.println(message);
+	}
+	public void displayReleaseFail(String message) {
 		System.out.println(message);
 	}
 }

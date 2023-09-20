@@ -270,7 +270,33 @@ public Shoes selectByStock(Connection conn, int pCode) {
 		return s;
 	}
 
-	public int updateStore(Connection conn, ShoesDetail sd) {
+	public int updateProductStore(Connection conn, ShoesDetail sd) {
+		//insert => 처리된 행 수
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateProductStore");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sd.getpCode());
+			pstmt.setInt(2, sd.getAmount());
+			pstmt.setString(3, sd.getStatus());
+			
+			
+			result = pstmt.executeUpdate();
+			System.out.println(result);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	
+	public int updateProductRelease(Connection conn, ShoesDetail sd) {
 		//insert => 처리된 행 수
 		
 		int result = 0;
@@ -280,15 +306,12 @@ public Shoes selectByStock(Connection conn, int pCode) {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			System.out.println(sql);
-			
 			pstmt.setInt(1, sd.getpCode());
 			pstmt.setInt(2, sd.getAmount());
 			pstmt.setString(3, sd.getStatus());
 			
 			
 			result = pstmt.executeUpdate();
-			System.out.println(result);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

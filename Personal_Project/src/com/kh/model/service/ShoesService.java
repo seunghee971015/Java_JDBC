@@ -84,10 +84,24 @@ public class ShoesService {
 		return s;
 	}
 	
-	public int updateStore(ShoesDetail sd) {
+	public int updateProductStore(ShoesDetail sd) {
 		
 		Connection conn = JDBCTemplate.getConnection();
-		 int result = new ShoesDao().updateStore(conn, sd);
+		 int result = new ShoesDao().updateProductStore(conn, sd);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	
+public int updateProductRelease(ShoesDetail sd) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		 int result = new ShoesDao().updateProductStore(conn, sd);
 		
 		if(result > 0) {
 			JDBCTemplate.commit(conn);

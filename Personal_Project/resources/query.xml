@@ -28,7 +28,11 @@
 		UPDATE TB_SHOES_PRODUCT
 		SET PNAME = ?, BRAND = ?, SHOE_SIZE = ?, PRICE = ? WHERE PCODE = ? 
 	</entry>
-	<entry key="updateStore">
+	<entry key="updateProductStore">
+		INSERT INTO TB_PRODETAIL
+		VALUES(SEQ_DECODE.NEXTVAL, ?, SYSDATE, ?, ?)
+	</entry>
+	<entry key="updateProductRelease">
 		INSERT INTO TB_PRODETAIL
 		VALUES(SEQ_DECODE.NEXTVAL, ?, SYSDATE, ?, ?)
 	</entry>

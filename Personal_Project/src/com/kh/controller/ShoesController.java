@@ -28,7 +28,7 @@ public class ShoesController {
 	}
 	
 	/**
-	 * 사용자의 회원 전체 조회 요청을 처리해주는 메소드
+	 * 신발 전체 조회를 위한 메서드
 	 */
 	public void selectList() {
 		ArrayList<Shoes> list = new ShoesService().selectList();
@@ -42,8 +42,8 @@ public class ShoesController {
 	}
 //
 //	/**
-//	 * 사용자의 아이디로 회원 검색 요청을 처리해주는 메소드
-//	 * @param userId : 사용자가 입력한 검색하고자하는 회원 아이디
+//	 * 신발의 코드번호로 신발 조회 요청을 처리해주는 메소드
+//	 * @param pCode : 사용자가 입력한 검색하고자하는 신발의 코드번호
 //	 */
 	public void selectBypCode(int pCode) {
 		Shoes s = new ShoesService().selectBypCode(pCode);
@@ -56,19 +56,19 @@ public class ShoesController {
 	}
 //
 //	/**
-//	 * 이름으로 키워드 검색 요청시 처리해주는 메소드
-//	 * @param keyword : 사용자가 입력한 검색할 키워드명
+//	 * 브랜드명으로 키워드 검색 요청시 처리해주는 메소드
+//	 * @param brand : 사용자가 입력한 검색할 키워드명
 //	 */
-	public void selectByBrand(String keyword) {
-	      ArrayList<Shoes> list = new ShoesService().selectByBrand(keyword);
+	public void selectByBrand(String brand) {
+	      ArrayList<Shoes> list = new ShoesService().selectByBrand(brand);
 	      
 	      if(list.isEmpty()) {
-	    	  new ShoesMenu().displayNoData(keyword + "에 해당하는 검색 결과가 없습니다.");
+	    	  new ShoesMenu().displayNoData(brand + "에 해당하는 검색 결과가 없습니다.");
 	      } else {
 	    	  new ShoesMenu().displayMemberList(list);
 	      }
 	   }
-//	
+	
 	public void updateShoes(int pCode, String pName,
 			String brand, int shoeSize, int price) {
 		Shoes s = new Shoes();
@@ -107,16 +107,30 @@ public class ShoesController {
 		}
 	} 
 	
-	public void updateStroe(int pCode, int stock, String status) {
+	public void updateProductStroe(int pCode, int amount, String status) {
 		
-		ShoesDetail sd = new ShoesDetail(pCode, stock, status);
+		ShoesDetail sd = new ShoesDetail(pCode, amount, status);
 		
-		int result = new ShoesService().updateStore(sd);
+		int result = new ShoesService().updateProductStore(sd);
 		
 		if(result > 0) {
 			new ShoesMenu().displayStoreSuccess("성공적으로 입고를 완료하였습니다.");
 		} else {
 			new ShoesMenu().displayStoreFail("입고에 실패하였습니다.");
+		}
+		
+	}
+	
+public void updateProductRelease(int pCode, int amount, String status) {
+		
+		ShoesDetail sd = new ShoesDetail(pCode, amount, status);
+		
+		int result = new ShoesService().updateProductStore(sd);
+		
+		if(result > 0) {
+			new ShoesMenu().displayReleaseSuccess("성공적으로 출고를 완료하였습니다.");
+		} else {
+			new ShoesMenu().displayReleaseFail("출고에 실패하였습니다.");
 		}
 		
 	}

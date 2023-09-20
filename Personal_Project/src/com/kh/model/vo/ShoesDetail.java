@@ -25,8 +25,11 @@ public class ShoesDetail{
 		super();
 	}
 	
-	public ShoesDetail(int pCode, int stock, String status) {
+	public ShoesDetail(int pCode, int amount, String status) {
 		super();
+		this.amount = amount;
+		this.pCode = pCode;
+		this.status = status;
 	}
 
 	public int getDeCode() {
