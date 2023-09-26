@@ -216,12 +216,20 @@ public class ShoesDao {
 		
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("deleteShoes");
+		String sql2 = prop.getProperty("deleteShoes2");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, pCode);
 			
 			result = pstmt.executeUpdate();
+			
+			
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setInt(1, pCode);
+			
+			result = pstmt.executeUpdate();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -231,7 +239,7 @@ public class ShoesDao {
 		return result;
 		
 	}
-	
+
 public Shoes selectByStock(Connection conn, int pCode) {
 		
 		//select문(한 행) => ResultSet객체 => Member 객체
@@ -286,7 +294,6 @@ public Shoes selectByStock(Connection conn, int pCode) {
 			
 			
 			result = pstmt.executeUpdate();
-			System.out.println(result);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

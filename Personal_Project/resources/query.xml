@@ -21,7 +21,11 @@
 		WHERE BRAND LIKE '%' || ? || '%'
 	</entry>
 	<entry key="deleteShoes">
-		DELETE FROM  TB_SHOES_PRODUCT
+		DELETE FROM TB_PRODETAIL
+		WHERE PCODE = ?
+	</entry>
+	<entry key="deleteShoes2">
+		DELETE FROM TB_SHOES_PRODUCT
 		WHERE PCODE = ?
 	</entry>
 	<entry key="updateShoes">
