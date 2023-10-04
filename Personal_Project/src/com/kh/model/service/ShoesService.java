@@ -111,12 +111,4 @@ public int updateProductRelease(ShoesDetail sd) {
 		
 		return result;
 	}
-//	
-//	public Member loginMember(String userId, String userPwd) {
-//		Connection conn = JDBCTemplate.getConnection();
-//		Member m = new ShoesDao().loginMember(conn, userId, userPwd);
-//		JDBCTemplate.close(conn);
-//		
-//		return m;
-//	}
 }

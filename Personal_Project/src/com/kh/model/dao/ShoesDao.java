@@ -327,44 +327,5 @@ public Shoes selectByStock(Connection conn, int pCode) {
 		}
 		return result;
 	}
-//	
-//	public Member loginMember(Connection conn, String userId, String userPwd) {
-//		//select문(한 행) => ResultSet객체 => Member 객체
-//			Member m = null;
-//			PreparedStatement pstmt = null;
-//			ResultSet rset = null;
-//			
-//			String sql = prop.getProperty("loginMember");
-//	
-//			try {
-//				pstmt = conn.prepareStatement(sql);
-//				pstmt.setString(1, userId);
-//				pstmt.setString(2, userPwd);
-//				rset = pstmt.executeQuery();
-//				
-//				if(rset.next()) {
-//					m = new Member();
-//					m.setUserNo(rset.getInt("USERNO"));
-//					m.setUserId(rset.getString("USERID"));
-//					m.setUserPwd(rset.getString("USERPWD"));
-//					m.setUserName(rset.getString("USERNAME"));
-//					m.setGender(rset.getString("GENDER"));
-//					m.setAge(rset.getInt("AGE"));
-//					m.setEmail(rset.getString("EMAIL"));
-//					m.setPhone(rset.getString("PHONE"));
-//					m.setAddress(rset.getString("ADDRESS"));
-//					m.setHobby(rset.getString("HOBBY"));
-//					m.setEnrollDate(rset.getDate("ENROLLDATE"));
-//				}
-//				
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			} finally {
-//				JDBCTemplate.close(rset);
-//				JDBCTemplate.close(pstmt);
-//			}
-//			return m;
-//			
-//			
-//	}
+	
 }

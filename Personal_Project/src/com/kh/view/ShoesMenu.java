@@ -16,9 +16,6 @@ public class ShoesMenu {
 	private ShoesController sct = new ShoesController();
 	
 	
-	/**
-	 *  사용자가 보게될 첫 화면(메인화면)
-	 * */
 	
 	public void mainMenu() {
 
@@ -53,13 +50,12 @@ public class ShoesMenu {
 				//sct.selectBypCode(pCode);
 				sct.selectBypCode(inputpCode());
 				break;
-			case 4 : // 회원 이름으로 키워드 검색
+			case 4 : // 브랜드 이름으로 키워드 검색
 				//String brand = inputShoeBrand();
 				//sct.selectByUserName(brand);
 				sct.selectByBrand(inputShoeBrand());
 				break;
 			case 5 : // 신발 삭제
-				//DELETE FROM TB_SHOES_PRODUCT WHERE PCODE = '사용자가 입력한 아이디'
 				
 				//int pCode = inputpCode();
 				//mc.deleteMember(pCode);
@@ -90,13 +86,9 @@ public class ShoesMenu {
 		}
 	}
 
-	/**
-	 * 회원 추가 창(서브화면) 즉, 추가하고자 하는 회원의 정보를 입력받아 회원을 추가요청하는 창
-	 */
 	public void inputShoes() {
 		
 		System.out.println("\n=== 새로운 신발 추가 ===");
-		// id ~ 취미까지 입력받기
 		
 		System.out.print("상품명(한글로 입력) : ");
 		String pName = sc.nextLine();
@@ -127,17 +119,12 @@ public class ShoesMenu {
 		System.out.println("\n상품 번호 입력");
 		return sc.nextInt();
 	}
-//	
-//	public String inputMemberPwd() {
-//		System.out.println("\n회원 비밀번호 입력");
-//		return sc.nextLine();
-//	}
-//	
+
 	public String inputShoeBrand() {	
 		System.out.println("\n브랜드 명 입력");
 		return sc.nextLine();
 	}
-//	
+	
 	public void updateShoes() {
 		System.out.println("\n===신발 정보 변경 ===");
 		
@@ -164,7 +151,6 @@ public class ShoesMenu {
 public void updateProductStore() {
 		
 		System.out.println("\n=== 입고 업로드 ===");
-		// id ~ 취미까지 입력받기
 		
 		System.out.print("신발 코드 : ");
 		int pCode = sc.nextInt();
@@ -235,22 +221,16 @@ public void updateProductRelease() {
 	public void displayMemberList(ArrayList<Shoes> list) {
 		System.out.println("\n조회된 데이터는 다음과 같습니다");
 		
-//		for loop
-//		for(int i = 0; i < list.size(); i++) {
-//			System.out.println(list.get(i));
-//		}
-		
-		//for each
 		for(Shoes s : list) {
 			System.out.println(s);
 		}
 	}
-//	         
+	         
 	public void displayShoes(Shoes s) {
 		System.out.println("\n조회된 데이터는 다음과 같습니다.");
 		System.out.println(s);
 	}
-//	
+	
 	public void displayLoginFail(String message) {
 		System.out.println(message);
 	}

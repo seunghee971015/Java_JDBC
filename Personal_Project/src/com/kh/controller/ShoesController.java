@@ -134,16 +134,5 @@ public void updateProductRelease(int pCode, int amount, String status) {
 		}
 		
 	}
-//	
-//	public void loginMember(String userId, String userPwd) {
-//		Member m = new ShoesService().loginMember(userId, userPwd);
-//		
-//		if(m != null) {
-//			new ShoesMenu().displayLoginSuccess("로그인 성공");
-//
-//		} else {
-//			new ShoesMenu().displayLoginFail("로그인 실패");
-//		}
-//	}
 
 }
