@@ -36,7 +36,7 @@ public class ShoesController {
 		if(list.isEmpty()) {
 			new ShoesMenu().displayNoData("전체 조회 결과가 업습니다.");
 		} else {
-			new ShoesMenu().displayMemberList(list);
+			new ShoesMenu().displayShoesList(list);
 		}
 		
 	}
@@ -65,7 +65,7 @@ public class ShoesController {
 	      if(list.isEmpty()) {
 	    	  new ShoesMenu().displayNoData(brand + "에 해당하는 검색 결과가 없습니다.");
 	      } else {
-	    	  new ShoesMenu().displayMemberList(list);
+	    	  new ShoesMenu().displayShoesList(list);
 	      }
 	   }
 	
@@ -98,7 +98,7 @@ public class ShoesController {
 	}
 	
 	public void selectByStock(int pCode) {
-		Shoes s = new ShoesService().selectBypCode(pCode);
+		Shoes s = new ShoesService().selectByStock(pCode);
 		
 		if(s == null) {
 			new ShoesMenu().displayNoData(pCode + "에 해당하는 조회 결과가 없습니다.");
@@ -121,7 +121,7 @@ public class ShoesController {
 		
 	}
 	
-public void updateProductRelease(int pCode, int amount, String status) {
+	public void updateProductRelease(int pCode, int amount, String status) {
 		
 		ShoesDetail sd = new ShoesDetail(pCode, amount, status);
 		
@@ -133,6 +133,16 @@ public void updateProductRelease(int pCode, int amount, String status) {
 			new ShoesMenu().displayReleaseFail("출고에 실패하였습니다.");
 		}
 		
+	}
+		
+	public void storeStatus() {
+		ArrayList<ShoesDetail> list = new ShoesService().storeStatus();
+		
+		if(list.isEmpty()) {
+			new ShoesMenu().displayNoData("전체 조회 결과가 업습니다.");
+		} else {
+			new ShoesMenu().displayStoreList(list);
+		}
 	}
 
 }

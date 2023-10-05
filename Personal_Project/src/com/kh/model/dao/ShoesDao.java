@@ -105,7 +105,7 @@ public class ShoesDao {
 		return list;
 		
 	}
-//
+
 	public Shoes selectBypCode(Connection conn, int pCode) {
 		
 		//select문(한 행) => ResultSet객체 => Member 객체
@@ -240,7 +240,7 @@ public class ShoesDao {
 		
 	}
 
-public Shoes selectByStock(Connection conn, int pCode) {
+	public Shoes selectByStock(Connection conn, int pCode) {
 		
 		//select문(한 행) => ResultSet객체 => Member 객체
 		Shoes s = null;
@@ -326,6 +326,50 @@ public Shoes selectByStock(Connection conn, int pCode) {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+	
+	public ArrayList<ShoesDetail> storeStatus(Connection conn) {
+		// select문(여러행 조회) => ResultSet객체 => ArrayList에 담아 넘기기
+		
+		ArrayList<ShoesDetail> list = new ArrayList<>(); //비어있는 상태
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("storeStatus");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				ShoesDetail sd = new ShoesDetail();
+				sd.setDeCode(rset.getInt("DECODE"));
+				sd.setpCode(rset.getInt("PCODE"));
+				sd.setpDate(rset.getDate("PDATE"));
+				sd.setAmount(rset.getInt("AMOUNT"));
+				sd.setStatus(rset.getString("STATUS"));
+				
+				/*
+				DECODE
+				PCODE
+				PDATE
+				AMOUNT
+				STATUS
+				*/
+				
+				
+				list.add(sd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+		
 	}
 	
 }

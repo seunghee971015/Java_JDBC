@@ -86,8 +86,8 @@ public class Shoes {
 
 	@Override
 	public String toString() {
-		return pCode + "번, " + pName + ", " + brand + ", " + shoeSize
-				+ "size, " + price + "원, " + stock + "개";
+		return "상품번호: " + pCode + "번, " + "상품명: " + pName + ", 브랜드명: " + brand + ", 사이즈: " + shoeSize
+				+ "size, 가격: " + price + "원, 재고: " + stock + "개";
 	}
 	
 

@@ -40,5 +40,10 @@
 		INSERT INTO TB_PRODETAIL
 		VALUES(SEQ_DECODE.NEXTVAL, ?, SYSDATE, ?, ?)
 	</entry>
+	<entry key="storeStatus">
+		SELECT * 
+		FROM TB_PRODETAIL
+		ORDER BY PDATE
+	</entry>
 	
 </properties>

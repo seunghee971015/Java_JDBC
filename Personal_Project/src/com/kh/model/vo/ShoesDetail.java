@@ -74,8 +74,8 @@ public class ShoesDetail{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "이력번호: " + deCode + " " + "상품번호: " + pCode + " " + "입출고 날짜: " + pDate +
+				" " + "입출고 수량:  " + amount + " " + "상태: " + status;
 	}
 
 

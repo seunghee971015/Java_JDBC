@@ -78,7 +78,7 @@ public class ShoesService {
 	
 	public Shoes selectByStock(int pCode) {
 		Connection conn = JDBCTemplate.getConnection();
-		Shoes s = new ShoesDao().selectBypCode(conn, pCode);
+		Shoes s = new ShoesDao().selectByStock(conn, pCode);
 		JDBCTemplate.close(conn);
 		
 		return s;
@@ -98,7 +98,7 @@ public class ShoesService {
 		return result;
 	}
 	
-public int updateProductRelease(ShoesDetail sd) {
+	public int updateProductRelease(ShoesDetail sd) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		 int result = new ShoesDao().updateProductStore(conn, sd);
@@ -110,5 +110,13 @@ public int updateProductRelease(ShoesDetail sd) {
 		}
 		
 		return result;
+	}
+	
+	public ArrayList<ShoesDetail> storeStatus() {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<ShoesDetail> list = new ShoesDao().storeStatus(conn);
+		JDBCTemplate.close(conn);
+		
+		return list;
 	}
 }

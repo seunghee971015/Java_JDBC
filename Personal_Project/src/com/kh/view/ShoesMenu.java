@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.kh.controller.ShoesController;
 import com.kh.model.vo.Shoes;
+import com.kh.model.vo.ShoesDetail;
 
 //view : 사용자가 보게될 시각적인 요소(화면) 출력 및 입력
 public class ShoesMenu {
@@ -25,13 +26,14 @@ public class ShoesMenu {
 			System.out.println("\n==신발 관리 프로그램==");
 			System.out.println("1. 입고된 신발 추가");
 			System.out.println("2. 신발 전체 조회");
-			System.out.println("3. 상품 번호 조회");
-			System.out.println("4. 브랜드 이름으로 키워드 검색");
+			System.out.println("3. 상품번호로 신발 조회");
+			System.out.println("4. 브랜드 이름으로 신발 검색");
 			System.out.println("5. 신발 삭제");
 			System.out.println("6. 신발 정보 변경");
 			System.out.println("7. 재고 수량 확인");
 			System.out.println("8. 입고 업로드");
 			System.out.println("9. 출고 업로드");
+			System.out.println("10. 입출고 현황");
 			System.out.println("0. 프로그램 종료");
 			
 			System.out.print(">> 메뉴 선택 : ");
@@ -74,6 +76,9 @@ public class ShoesMenu {
 				break;
 			case 9 : //출고 업로드
 				updateProductRelease();
+				break;
+			case 10 : //입출고 상태 확인
+				sct.storeStatus();
 				break;
 			case 0 : // 프로그램 종료(메서드 빠져나감)
 				System.out.println("신발 관리 프로그램을 종료합니다.");
@@ -188,8 +193,8 @@ public void updateProductRelease() {
 	// 출고 요청 == Controller메서드 요청
 	sct.updateProductRelease(pCode, amount, status);
 	
-	
 }
+
 //	//------------------------------응답화면-------------------------------------------
 //	/**
 //	 *  서비스 요청 처리 후 성공했을 경우 사용자가 보게될 응답화면
@@ -218,7 +223,7 @@ public void updateProductRelease() {
 //	 * 조회 서비스 요청시 조회 결과가 여러행일 경우 사용자가 보게될 응답화면
 //	 * @param list : 출력할 shoes들이 담겨있는 list
 //	 */
-	public void displayMemberList(ArrayList<Shoes> list) {
+	public void displayShoesList(ArrayList<Shoes> list) {
 		System.out.println("\n조회된 데이터는 다음과 같습니다");
 		
 		for(Shoes s : list) {
@@ -255,5 +260,13 @@ public void updateProductRelease() {
 	}
 	public void displayReleaseFail(String message) {
 		System.out.println(message);
+	}
+	
+	public void displayStoreList(ArrayList<ShoesDetail> list) {
+		System.out.println("\n요일별 입고, 출고 현황");
+		
+		for(ShoesDetail sd : list) {
+			System.out.println(sd);
+		}
 	}
 }
